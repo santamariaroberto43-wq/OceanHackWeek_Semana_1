@@ -1,0 +1,77 @@
+---
+title: "Tarea_1"
+author: "Roberto Santamaría Valverde"
+date: "2026-11-13"
+output: html_document
+---
+Descripción: son datos de observaciones de cetaceos en varios sitios del paficico panameño, los colecte cuando trabaje para el Ministerio de Ambiente de Panamá.
+
+```{Cargamos datos}
+
+installed.packages("Tidyverse")
+library(readr)
+
+datos <- read_delim(
+  "C:/Users/diley/OneDrive/Documentos/Umip/2026/II semestre/Metodos de Analisis de datos/MOAD/DatosLimpiosMoad2.0.csv",
+  delim = ";",
+  locale = locale(encoding = "Latin1"),
+  show_col_types = FALSE)
+
+```
+
+Ahora comprobamos los datos
+ejecutando funciones de revision como head(), str(), dim() 
+```{r Revisamos datos}
+head(datos)  # Muestra las primeras 6 filas
+
+str(datos)   # Muestra la estructura de los datos
+
+dim(datos)   # Muestra el número de filas y columnas
+```
+Luego, revisamos los estadisticos generales
+```{r}
+summary(datos)
+```
+
+Ahora seguimos explorando los datos
+```{r}
+hist(datos$Total) #revisamos como estan agrupados los avistamietos#
+
+hist(datos$Adults,
+     main = "Distribución de adultos",
+     xlab = "Número de adultos",
+     ylab = "Frecuencia",
+     col = "lightgreen",
+     border = "black")
+#también como se agrupan la cantidad de individuos avistados 
+
+```
+
+También podemos revisarlo por especie
+```{r}
+barplot(table(datos$Especie),
+        main = "Avistamientos por especie",
+        xlab = "Especie",
+        ylab = "Número de avistamientos",
+        col = "lightblue")
+```
+
+ahora podemos revisar como se agrupan por localidad
+
+```{r}
+boxplot(Total ~ Localidad,
+        data = datos,
+        main = "Tamaño de grupo por localidad",
+        xlab = "Localidad",
+        ylab = "Número de individuos",
+        col = "lightyellow",
+        border = "black",
+        las = 2)
+```
+
+```{r}
+kruskal.test(Total ~ Localidad, data = datos)
+```
+Con esto podemos ver que no se observo una diferencia significativa en los tamaño de los grupos de cetaceos en las localidades
+
+
